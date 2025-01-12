@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.demo.dao.MockDataMapper" >
+  <resultMap id="BaseResultMap" type="com.example.demo.domain.MockData" >
+    <constructor >
+      <idArg column="id" jdbcType="BIGINT" javaType="java.lang.Long" />
+      <arg column="templates_id" jdbcType="BIGINT" javaType="java.lang.Long" />
+      <arg column="params" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="from_data" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="raw" jdbcType="VARCHAR" javaType="java.lang.String" />
+    </constructor>
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.example.demo.domain.MockData" >
+    <constructor >
+      <idArg column="id" jdbcType="BIGINT" javaType="java.lang.Long" />
+      <arg column="templates_id" jdbcType="BIGINT" javaType="java.lang.Long" />
+      <arg column="params" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="from_data" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="raw" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="value" jdbcType="LONGVARCHAR" javaType="java.lang.String" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, templates_id, params, from_data, raw
+  </sql>
+  <sql id="Blob_Column_List" >
+    value
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from mock_data
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+
+  <select id="selectByTemplatesID" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from mock_data
+    where templates_id = #{templates_id}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from mock_data
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.example.demo.domain.MockData" >
+    insert into mock_data (id, templates_id, params,
+    from_data, raw, value
+    )
+    values (#{id,jdbcType=BIGINT}, #{templatesId,jdbcType=BIGINT}, #{params,jdbcType=VARCHAR},
+    #{fromData,jdbcType=VARCHAR}, #{raw,jdbcType=VARCHAR}, #{value,jdbcType=LONGVARCHAR}
+    )
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.demo.domain.MockData" >
+    insert into mock_data
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="templatesId != null" >
+        templates_id,
+      </if>
+      <if test="params != null" >
+        params,
+      </if>
+      <if test="fromData != null" >
+        from_data,
+      </if>
+      <if test="raw != null" >
+        raw,
+      </if>
+      <if test="value != null" >
+        value,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="templatesId != null" >
+        #{templatesId,jdbcType=BIGINT},
+      </if>
+      <if test="params != null" >
+        #{params,jdbcType=VARCHAR},
+      </if>
+      <if test="fromData != null" >
+        #{fromData,jdbcType=VARCHAR},
+      </if>
+      <if test="raw != null" >
+        #{raw,jdbcType=VARCHAR},
+      </if>
+      <if test="value != null" >
+        #{value,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.demo.domain.MockData" >
+    update mock_data
+    <set >
+      <if test="templatesId != null" >
+        templates_id = #{templatesId,jdbcType=BIGINT},
+      </if>
+      <if test="params != null" >
+        params = #{params,jdbcType=VARCHAR},
+      </if>
+      <if test="fromData != null" >
+        from_data = #{fromData,jdbcType=VARCHAR},
+      </if>
+      <if test="raw != null" >
+        raw = #{raw,jdbcType=VARCHAR},
+      </if>
+      <if test="value != null" >
+        value = #{value,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.example.demo.domain.MockData" >
+    update mock_data
+    set templates_id = #{templatesId,jdbcType=BIGINT},
+    params = #{params,jdbcType=VARCHAR},
+    from_data = #{fromData,jdbcType=VARCHAR},
+    raw = #{raw,jdbcType=VARCHAR},
+    value = #{value,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.demo.domain.MockData" >
+    update mock_data
+    set templates_id = #{templatesId,jdbcType=BIGINT},
+      params = #{params,jdbcType=VARCHAR},
+      from_data = #{fromData,jdbcType=VARCHAR},
+      raw = #{raw,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
